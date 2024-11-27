@@ -53,3 +53,5 @@ Todo
  Improve error handling and user feedback
  Streamline USMAP generation process
  Enhance integration with UAssetGUI
+ Add more version detection
+ Add decryption process if needed for pak files
