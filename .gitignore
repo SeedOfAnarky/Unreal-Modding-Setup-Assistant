@@ -1,0 +1,9 @@
+# Exclude node_modules directory
+node_modules/
+
+# Exclude dist directory
+dist/
+
+# Exclude any other directories or files you don't want to upload
+/node_modules
+/test
