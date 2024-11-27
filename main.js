@@ -1,4 +1,6 @@
 // Import required Electron and Node.js modules
+require('electron').app.commandLine.appendSwitch('remote-debugging-port', '8315');
+
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
