@@ -1,4 +1,3 @@
-// src/components/steps/Step4_UAssetGUI.jsx
 import React from 'react';
 
 const Step4_UAssetGUI = ({ gameInfo, stepStatus, setStepStatus }) => {
@@ -15,7 +14,14 @@ const Step4_UAssetGUI = ({ gameInfo, stepStatus, setStepStatus }) => {
         <p>After downloading:</p>
         <ol className="list-decimal ml-6 space-y-1">
           <li>Extract UAssetGUI to a location of your choice</li>
-          <li>Open UAssetGUI and select your game version: {gameInfo.version}</li>
+          <li>
+            Open UAssetGUI and select your game version:
+            <ul className="ml-4 list-disc">
+              <li>Version: {gameInfo.version.version}</li>
+              <li>Description: {gameInfo.version.description}</li>
+              <li>Product Name: {gameInfo.version.productName}</li>
+            </ul>
+          </li>
           <li>Attach the USMAP file you generated in step 3</li>
           <li>You can now explore and modify .pak game files</li>
         </ol>

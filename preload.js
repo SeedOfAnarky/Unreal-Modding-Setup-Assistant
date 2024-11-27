@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld('electron', {
   storeGameInfo: (info) => ipcRenderer.invoke('store-game-info', info),
   startUsmapMonitoring: (directory, gameInfo) => ipcRenderer.invoke('start-usmap-monitoring', directory, gameInfo),
   on: (channel, callback) => ipcRenderer.on(channel, (event, ...args) => callback(...args)),
+  checkFileExists: (filePath) => ipcRenderer.invoke('check-file-exists', filePath),
   
   // New methods for UAssetGUI download and directory opening
   downloadUAssetGUI: (gameDirectory) => ipcRenderer.invoke('download-uassetgui', gameDirectory),
