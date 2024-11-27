@@ -5,14 +5,9 @@ import GameInfo from '../common/GameInfo';
 const Step1_GameDirectory = ({ gameInfo, setGameInfo, stepStatus, setStepStatus, setCurrentError }) => {
   const handleSelectDirectory = async () => {
     try {
-      if (!window.electron) {
-        throw new Error('Electron API not available');
-      }
-      
+      if (!window.electron) throw new Error('Electron API not available');
       const result = await window.electron.selectDirectory();
-      if (result) {
-        await validateGameDirectory(result);
-      }
+      if (result) await validateGameDirectory(result);
     } catch (error) {
       console.error('Directory selection error:', error);
       setCurrentError(`Failed to select directory: ${error.message}`);
@@ -29,11 +24,14 @@ const Step1_GameDirectory = ({ gameInfo, setGameInfo, stepStatus, setStepStatus,
 
       if (shippingExe) {
         const version = await getGameVersion(directoryPath, shippingExe);
-        setGameInfo({
+        const gameData = {
           directory: directoryPath,
           executable: shippingExe,
           version: version
-        });
+        };
+        
+        setGameInfo(gameData);
+        await window.electron.storeGameInfo(gameData);
         setStepStatus(prev => ({ ...prev, gameSelected: true }));
         setCurrentError('');
       } else {

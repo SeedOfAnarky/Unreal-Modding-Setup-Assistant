@@ -11,11 +11,11 @@ const GameInfo = ({ executable, directory, version }) => {
           <p><span className="font-medium">Location:</span> {directory}</p>
           <p>
             <span className="font-medium">Version:</span> 
-            {version ? (
-              <span className="text-blue-600"> {version}</span>
-            ) : (
-              <span className="text-gray-500"> Checking version...</span>
-            )}
+            <span className="text-blue-600"> {version.version || "Version not available"}</span>
+          </p>
+          <p>
+            <span className="font-medium">Product:</span> 
+            <span className="text-gray-600"> {version.description || "Unknown"}</span>
           </p>
         </div>
         <div className="mt-2 text-sm text-gray-600">
