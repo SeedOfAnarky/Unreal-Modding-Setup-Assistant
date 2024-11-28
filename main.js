@@ -284,9 +284,7 @@ function watchForUSMAP(directory, info) {
   const watcher = fs.watch(directory, (eventType, filename) => {
     if (filename === 'Mappings.usmap') {
       const oldPath = path.join(directory, filename);
-      const newName = `${info.version.version}.usmap`;
-      // removed ${info.version.description}-
-      //original code : const newName = `${info.version.description}-${info.version.version}.usmap`;
+      const newName = `${info.version.description}.usmap`;
       const newPath = path.join(directory, newName);
       
       fs.rename(oldPath, newPath, (err) => {
