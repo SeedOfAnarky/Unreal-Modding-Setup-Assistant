@@ -36,7 +36,7 @@ function createWindow() {
   mainWindow.loadFile('public/index.html');
   
   // Open DevTools for debugging (can be removed in production)
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 }
 
 // IPC Handlers for various file system and application operations
@@ -284,7 +284,9 @@ function watchForUSMAP(directory, info) {
   const watcher = fs.watch(directory, (eventType, filename) => {
     if (filename === 'Mappings.usmap') {
       const oldPath = path.join(directory, filename);
-      const newName = `${info.version.description}-${info.version.version}-Mappings.usmap`;
+      const newName = `${info.version.version}.usmap`;
+      // removed ${info.version.description}-
+      //original code : const newName = `${info.version.description}-${info.version.version}.usmap`;
       const newPath = path.join(directory, newName);
       
       fs.rename(oldPath, newPath, (err) => {
