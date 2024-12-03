@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import SuccessAnimation from '../common/SuccessAnimation';
 
 const Step3_USMAP = ({ stepStatus, setStepStatus }) => {
   useEffect(() => {
@@ -24,12 +25,16 @@ const Step3_USMAP = ({ stepStatus, setStepStatus }) => {
         </ol>
       </div>
       <div className="flex items-center space-x-2">
-        <input
-          type="checkbox"
-          checked={stepStatus.usmapGenerated}
-          readOnly
-          className="w-4 h-4"
-        />
+        {stepStatus.usmapGenerated ? (
+          <SuccessAnimation className="w-6 h-6" />
+        ) : (
+          <input
+            type="checkbox"
+            checked={stepStatus.usmapGenerated}
+            readOnly
+            className="w-4 h-4"
+          />
+        )}
         <span>USMAP file generated</span>
       </div>
     </div>

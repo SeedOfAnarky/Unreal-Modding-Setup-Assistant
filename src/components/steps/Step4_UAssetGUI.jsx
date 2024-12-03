@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProgressBar from '../common/ProgressBar';
+import SuccessAnimation from '../common/SuccessAnimation';
 
 const Step4_UAssetGUI = ({ gameInfo, stepStatus, setStepStatus, downloadProgress, setDownloadProgress }) => {
   const [uassetGuiInstalled, setUassetGuiInstalled] = useState(false);
@@ -20,6 +21,7 @@ const Step4_UAssetGUI = ({ gameInfo, stepStatus, setStepStatus, downloadProgress
       await window.electron.downloadUAssetGUI(gameInfo.directory);
       setDownloadProgress(0);
       setUassetGuiInstalled(true);
+      setStepStatus(prev => ({ ...prev, uassetGuiSetup: true }));
     } catch (error) {
       console.error('UAssetGUI download error:', error);
     }
@@ -44,7 +46,10 @@ const Step4_UAssetGUI = ({ gameInfo, stepStatus, setStepStatus, downloadProgress
             {downloadProgress > 0 && <ProgressBar progress={downloadProgress} />}
           </>
         ) : (
-          <p className="text-green-600">✓ UAssetGUI installed</p>
+          <div className="flex items-center space-x-2">
+            <SuccessAnimation className="w-6 h-6" />
+            <span className="text-green-600">UAssetGUI installed</span>
+          </div>
         )}
         <button 
           onClick={openDirectory}
@@ -69,15 +74,19 @@ const Step4_UAssetGUI = ({ gameInfo, stepStatus, setStepStatus, downloadProgress
         </ol>
       </div>
       <div className="flex items-center space-x-2">
-        <input
-          type="checkbox"
-          checked={stepStatus.uassetGuiSetup}
-          onChange={(e) => setStepStatus(prev => ({ 
-            ...prev, 
-            uassetGuiSetup: e.target.checked 
-          }))}
-          className="w-4 h-4"
-        />
+        {stepStatus.uassetGuiSetup ? (
+          <SuccessAnimation className="w-6 h-6" />
+        ) : (
+          <input
+            type="checkbox"
+            checked={stepStatus.uassetGuiSetup}
+            onChange={(e) => setStepStatus(prev => ({ 
+              ...prev, 
+              uassetGuiSetup: e.target.checked 
+            }))}
+            className="w-4 h-4"
+          />
+        )}
         <span>I have set up UAssetGUI with the USMAP file</span>
       </div>
     </div>

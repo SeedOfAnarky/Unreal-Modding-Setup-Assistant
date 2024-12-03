@@ -1,5 +1,6 @@
 // src/components/common/StepProgress.jsx
 import React from 'react';
+import SuccessAnimation from './SuccessAnimation';
 
 const StepProgress = ({ stepStatus }) => {
   return (
@@ -7,23 +8,43 @@ const StepProgress = ({ stepStatus }) => {
       <h3 className="text-lg font-semibold mb-3">Setup Progress</h3>
       <div className="space-y-2">
         <div className="flex items-center space-x-2">
+          {stepStatus.gameSelected ? (
+            <SuccessAnimation className="w-5 h-5" />
+          ) : (
+            <span className="text-gray-400">○</span>
+          )}
           <span className={stepStatus.gameSelected ? 'text-green-600' : 'text-gray-400'}>
-            {stepStatus.gameSelected ? '✓' : '○'} Game Directory Selected
+            Game Directory Selected
           </span>
         </div>
         <div className="flex items-center space-x-2">
+          {stepStatus.ue4ssInstalled ? (
+            <SuccessAnimation className="w-5 h-5" />
+          ) : (
+            <span className="text-gray-400">○</span>
+          )}
           <span className={stepStatus.ue4ssInstalled ? 'text-green-600' : 'text-gray-400'}>
-            {stepStatus.ue4ssInstalled ? '✓' : '○'} UE4SS Installed
+            UE4SS Installed
           </span>
         </div>
         <div className="flex items-center space-x-2">
+          {stepStatus.usmapGenerated ? (
+            <SuccessAnimation className="w-5 h-5" />
+          ) : (
+            <span className="text-gray-400">○</span>
+          )}
           <span className={stepStatus.usmapGenerated ? 'text-green-600' : 'text-gray-400'}>
-            {stepStatus.usmapGenerated ? '✓' : '○'} USMAP Generated
+            USMAP Generated
           </span>
         </div>
         <div className="flex items-center space-x-2">
+          {stepStatus.uassetGuiSetup ? (
+            <SuccessAnimation className="w-5 h-5" />
+          ) : (
+            <span className="text-gray-400">○</span>
+          )}
           <span className={stepStatus.uassetGuiSetup ? 'text-green-600' : 'text-gray-400'}>
-            {stepStatus.uassetGuiSetup ? '✓' : '○'} UAssetGUI Setup Complete
+            UAssetGUI Setup Complete
           </span>
         </div>
       </div>

@@ -1,3 +1,4 @@
+// webpack.config.js
 const path = require('path');
 
 module.exports = {
@@ -18,10 +19,14 @@ module.exports = {
                         presets: ['@babel/preset-react', '@babel/preset-env']
                     }
                 }
+            },
+            {
+                test: /\.json$/,
+                type: 'json'
             }
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx', '.json']
     }
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProgressBar from '../common/ProgressBar';
+import SuccessAnimation from '../common/SuccessAnimation';
 
 const Step2_UE4SS = ({ gameInfo, stepStatus, setStepStatus, downloadProgress, setCurrentError }) => {
   const [ue4ssInstalled, setUe4ssInstalled] = useState(false);
@@ -19,15 +20,20 @@ const Step2_UE4SS = ({ gameInfo, stepStatus, setStepStatus, downloadProgress, se
   const downloadUE4SS = async () => {
     try {
       const url = 'https://github.com/UE4SS-RE/RE-UE4SS/releases/download/v3.0.1/zDEV-UE4SS_v3.0.1.zip';
-      const downloadPath = await window.electron.downloadFile(url, 'UE4SS.zip');
+      const downloadPath = await window.electron.downloadFile(url, 'UE4SS.zip', (progress) => {
+        setDownloadProgress(progress);
+      });
       
       if (gameInfo.directory) {
         await window.electron.extractZip(downloadPath, gameInfo.directory);
+        setUe4ssInstalled(true);
         setStepStatus(prev => ({ ...prev, ue4ssInstalled: true }));
+        setDownloadProgress(0);
         setCurrentError('');
       }
     } catch (error) {
       console.error('Download/extraction error:', error);
+      setDownloadProgress(0);
       setCurrentError('Failed to download or extract UE4SS');
     }
   };
@@ -54,13 +60,16 @@ const Step2_UE4SS = ({ gameInfo, stepStatus, setStepStatus, downloadProgress, se
                 !gameInfo.directory ? 'bg-gray-400' : 'bg-green-500 hover:bg-green-600'
               } text-white`}
             >
-              {downloadProgress > 0 ? 'Downloading...' : 'Download UE4SS'}
+              {downloadProgress > 0 ? `Downloading... (${downloadProgress.toFixed(2)}%)` : 'Download UE4SS'}
             </button>
             {downloadProgress > 0 && <ProgressBar progress={downloadProgress} />}
           </>
         ) : (
           <div className="space-y-2">
-            <p className="text-green-600">✓ UE4SS installed</p>
+            <div className="flex items-center space-x-2">
+              <SuccessAnimation className="w-6 h-6" />
+              <span className="text-green-600">UE4SS installed</span>
+            </div>
             <button
               onClick={launchGame}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
