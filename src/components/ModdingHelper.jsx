@@ -1,13 +1,13 @@
-// src/components/ModdingHelper.jsx
 import React, { useState, useEffect } from 'react';
 import Step1_GameDirectory from './steps/Step1_GameDirectory';
 import Step2_UE4SS from './steps/Step2_UE4SS';
 import Step3_USMAP from './steps/Step3_USMAP';
 import Step4_UAssetGUI from './steps/Step4_UAssetGUI';
 import StepProgress from './common/StepProgress';
+import StepCard from './common/StepCard';
+import { Card, CardContent } from "./ui/card";
 
 const ModdingHelper = () => {
-  // Centralized state management
   const [gameInfo, setGameInfo] = useState({
     directory: '',
     executable: '',
@@ -24,7 +24,6 @@ const ModdingHelper = () => {
   const [currentError, setCurrentError] = useState('');
   const [downloadProgress, setDownloadProgress] = useState(0);
 
-  // Effect for download progress listener
   useEffect(() => {
     if (window.electron) {
       window.electron.onDownloadProgress((progress) => {
@@ -34,46 +33,61 @@ const ModdingHelper = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold mb-6">Unreal Modding Setup Assistant</h1>
+    <div className="container mx-auto p-6 max-w-4xl">
+      <h1 className="text-3xl font-bold mb-8 text-center">Unreal Modding Setup Assistant</h1>
 
-      {/* Step Components */}
-      <Step1_GameDirectory 
-        gameInfo={gameInfo}
-        setGameInfo={setGameInfo}
-        stepStatus={stepStatus}
-        setStepStatus={setStepStatus}
-        setCurrentError={setCurrentError}
-      />
+      <div className="space-y-6">
+        <StepCard number="1" title="Select Game Directory">
+          <Step1_GameDirectory 
+            gameInfo={gameInfo}
+            setGameInfo={setGameInfo}
+            stepStatus={stepStatus}
+            setStepStatus={setStepStatus}
+            setCurrentError={setCurrentError}
+          />
+        </StepCard>
 
-      <Step2_UE4SS 
-        gameInfo={gameInfo}
-        stepStatus={stepStatus}
-        setStepStatus={setStepStatus}
-        downloadProgress={downloadProgress}
-        setCurrentError={setCurrentError}
-      />
+        <StepCard number="2" title="Download and Setup UE4SS">
+          <Step2_UE4SS 
+            gameInfo={gameInfo}
+            stepStatus={stepStatus}
+            setStepStatus={setStepStatus}
+            downloadProgress={downloadProgress}
+            setCurrentError={setCurrentError}
+          />
+        </StepCard>
 
-      <Step3_USMAP 
-        stepStatus={stepStatus}
-        setStepStatus={setStepStatus}
-      />
+        <StepCard number="3" title="Generate USMAP">
+          <Step3_USMAP 
+            stepStatus={stepStatus}
+            setStepStatus={setStepStatus}
+          />
+        </StepCard>
 
-      <Step4_UAssetGUI 
-        gameInfo={gameInfo}
-        stepStatus={stepStatus}
-        setStepStatus={setStepStatus}
-      />
+        <StepCard number="4" title="Setup UAssetGUI">
+          <Step4_UAssetGUI 
+            gameInfo={gameInfo}
+            stepStatus={stepStatus}
+            setStepStatus={setStepStatus}
+            downloadProgress={downloadProgress}
+            setDownloadProgress={setDownloadProgress}
+          />
+        </StepCard>
 
-      {/* Error Display */}
-      {currentError && (
-        <div className="text-red-500 p-4 rounded bg-red-50">
-          {currentError}
-        </div>
-      )}
+        {currentError && (
+          <Card className="border-red-200 bg-red-50">
+            <CardContent className="pt-6">
+              <p className="text-red-600">{currentError}</p>
+            </CardContent>
+          </Card>
+        )}
 
-      {/* Progress Overview */}
-      <StepProgress stepStatus={stepStatus} />
+        <Card className="mt-8 bg-gray-50">
+          <CardContent className="pt-6">
+            <StepProgress stepStatus={stepStatus} />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
